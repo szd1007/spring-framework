@@ -228,6 +228,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	public AbstractApplicationContext(@Nullable ApplicationContext parent) {
 		this();
+		System.out.println("hello spring world !!!!!");
 		setParent(parent);
 	}
 
