@@ -45,3 +45,7 @@ and releases are announced via our [news feed](http://spring.io/blog/category/ne
 
 The Spring Framework is released under version 2.0 of the
 [Apache License](http://www.apache.org/licenses/LICENSE-2.0).
+
+##  setup
+1 导入spring-learn作为一个子module
+2 添加其依赖jar包， 同时 将context添加源码映射（只添加这一个）
