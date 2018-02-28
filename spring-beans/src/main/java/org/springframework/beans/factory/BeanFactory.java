@@ -20,7 +20,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
 
-/**     2018-2-26 19:31:33
+/**2018-2-26 19:31:33
  * The root interface for accessing a Spring bean container.
  * This is the basic client view of a bean container;
  * further interfaces such as {@link ListableBeanFactory} and
@@ -130,8 +130,8 @@ public interface BeanFactory {
 	 * Singleton or Prototype design pattern. Callers may retain references to
 	 * returned objects in the case of Singleton beans.
 	 * <p>Translates aliases back to the corresponding canonical bean name.
-	 * Will ask the parent factory if the bean cannot be found in this factory instance.
-	 * @param name the name of the bean to retrieve
+	 * Will ask the parent factory if the bean cannot be found in this factory instance.当前factory找不到bean会查找parent
+	 * @param name the name of the bean to retrieve                                     |的factory
 	 * @return an instance of the bean
 	 * @throws NoSuchBeanDefinitionException if there is no bean definition
 	 * with the specified name

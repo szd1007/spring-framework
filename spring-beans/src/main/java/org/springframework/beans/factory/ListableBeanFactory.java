@@ -23,7 +23,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
 
-/**
+/**2018-2-28
  * Extension of the {@link BeanFactory} interface to be implemented by bean factories
  * that can enumerate all their bean instances, rather than attempting bean lookup
  * by name one by one as requested by clients. BeanFactory implementations that
@@ -31,8 +31,8 @@ import org.springframework.lang.Nullable;
  * this interface.
  *
  * <p>If this is a {@link HierarchicalBeanFactory}, the return values will <i>not</i>
- * take any BeanFactory hierarchy into account, but will relate only to the beans
- * defined in the current factory. Use the {@link BeanFactoryUtils} helper class
+ * take any BeanFactory hierarchy into account, but will relate only to the beans| 即使实现HierarchicalBeanFactory 只取当前factory中的实例，
+ * defined in the current factory. Use the {@link BeanFactoryUtils} helper class | 不会和上层factory有关系。
  * to consider beans in ancestor factories too.
  *
  * <p>The methods in this interface will just respect bean definitions of this factory.
