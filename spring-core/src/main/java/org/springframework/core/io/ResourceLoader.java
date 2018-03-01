@@ -19,7 +19,7 @@ package org.springframework.core.io;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ResourceUtils;
 
-/**
+/**20180301
  * Strategy interface for loading resources (e.. class path or file system
  * resources). An {@link org.springframework.context.ApplicationContext}
  * is required to provide this functionality, plus extended
