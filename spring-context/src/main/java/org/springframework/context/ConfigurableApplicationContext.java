@@ -26,7 +26,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ProtocolResolver;
 import org.springframework.lang.Nullable;
 
-/**
+/**20180306
  * SPI interface to be implemented by most if not all application contexts.
  * Provides facilities to configure an application context in addition
  * to the application context client methods in the
@@ -110,7 +110,7 @@ public interface ConfigurableApplicationContext extends ApplicationContext, Life
 	 */
 	void setEnvironment(ConfigurableEnvironment environment);
 
-	/**
+	/** 重写父接口中的方法 ，具体化返回接口类型。
 	 * Return the {@code Environment} for this application context in configurable
 	 * form, allowing for further customization.
 	 * @since 3.1
@@ -118,7 +118,7 @@ public interface ConfigurableApplicationContext extends ApplicationContext, Life
 	@Override
 	ConfigurableEnvironment getEnvironment();
 
-	/**
+	/**  后置处理器
 	 * Add a new BeanFactoryPostProcessor that will get applied to the internal
 	 * bean factory of this application context on refresh, before any of the
 	 * bean definitions get evaluated. To be invoked during context configuration.
