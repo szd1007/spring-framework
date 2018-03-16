@@ -80,11 +80,11 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.ReflectionUtils;
 
-/**
- * Abstract implementation of the {@link org.springframework.context.ApplicationContext}
- * interface. Doesn't mandate the type of storage used for configuration; simply
- * implements common context functionality. Uses the Template Method design pattern,
- * requiring concrete subclasses to implement abstract methods.
+/**20180308 一个类实现了多个接口，如果都在一个里面实现可能会比较复杂，可以将部分复杂的接口实现抽离，然后用代理的方式访问
+ * Abstract implementation of the {@link org.springframework.context.ApplicationContext} |这样的好处是这个总接口
+ * interface. Doesn't mandate the type of storage used for configuration; simply        |负责系统的一整个模块，下游
+ * implements common context functionality. Uses the Template Method design pattern,( 采用模板方法设计模式）|不用关心
+ * requiring concrete subclasses to implement abstract methods.                         |这个模块里面具体怎么分的
  *
  * <p>In contrast to a plain BeanFactory, an ApplicationContext is supposed
  * to detect special beans defined in its internal bean factory:
@@ -157,7 +157,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 
 	/** Logger used by this class. Available to subclasses. */
-	protected final Log logger = LogFactory.getLog(getClass());
+	protected final Log logger = LogFactory.getLog(getClass());//根据子类进行log注释
 
 	/** Unique id for this context, if any */
 	private String id = ObjectUtils.identityToString(this);
@@ -165,7 +165,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/** Display name */
 	private String displayName = ObjectUtils.identityToString(this);
 
-	/** Parent context */
+	/** Parent context 父ApplicationContext*/
 	@Nullable
 	private ApplicationContext parent;
 
@@ -173,7 +173,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Nullable
 	private ConfigurableEnvironment environment;
 
-	/** BeanFactoryPostProcessors to apply on refresh */
+	/** BeanFactoryPostProcessors to apply on refresh 后置处理器*/
 	private final List<BeanFactoryPostProcessor> beanFactoryPostProcessors = new ArrayList<>();
 
 	/** System time in milliseconds when this context started */
@@ -185,7 +185,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/** Flag that indicates whether this context has been closed already */
 	private final AtomicBoolean closed = new AtomicBoolean();
 
-	/** Synchronization monitor for the "refresh" and "destroy" */
+	/** Synchronization monitor for the "refresh" and "destroy" 同步锁对象，实例级别*/
 	private final Object startupShutdownMonitor = new Object();
 
 	/** Reference to the JVM shutdown hook, if registered */
@@ -197,8 +197,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/** LifecycleProcessor for managing the lifecycle of beans within this context */
 	@Nullable
-	private LifecycleProcessor lifecycleProcessor;
-
+	private LifecycleProcessor lifecycleProcessor;  //类本身声明实现lifeCycle接口,然后在类中引用了接口并且指定具体实现。接口方法转发到实现类
+													//	类本身只是做了一层代理，没有自己实现
 	/** MessageSource we delegate our implementation of this interface to */
 	@Nullable
 	private MessageSource messageSource;
@@ -216,7 +216,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 
 	/**
-	 * Create a new AbstractApplicationContext with no parent.
+	 * Create a new AbstractApplicationContext with no parent. 构造方法，无parent
 	 */
 	public AbstractApplicationContext() {
 		this.resourcePatternResolver = getResourcePatternResolver();
@@ -308,7 +308,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	@Override
 	public ConfigurableEnvironment getEnvironment() {
-		if (this.environment == null) {
+		if (this.environment == null) { //在操作的时候 实例加锁， 所以不存在并发问题
 			this.environment = createEnvironment();
 		}
 		return this.environment;
@@ -319,8 +319,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * <p>Subclasses may override this method in order to supply
 	 * a custom {@link ConfigurableEnvironment} implementation.
 	 */
-	protected ConfigurableEnvironment createEnvironment() {
-		return new StandardEnvironment();
+	protected ConfigurableEnvironment createEnvironment() { //先看各个抽象接口的处理方式。具体实现以后
+		return new StandardEnvironment();                   //运行的时候再看
 	}
 
 	/**
@@ -412,8 +412,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
-	 * Return the internal ApplicationEventMulticaster used by the context.
-	 * @return the internal ApplicationEventMulticaster (never {@code null})
+	 * Return the internal ApplicationEventMulticaster used by the context.  判断是否已经初始化，未初始化抛异常。可以
+	 * @return the internal ApplicationEventMulticaster (never {@code null}) 通过Prediction.checkNotNull实现
 	 * @throws IllegalStateException if the context has not been initialized yet
 	 */
 	ApplicationEventMulticaster getApplicationEventMulticaster() throws IllegalStateException {
@@ -426,7 +426,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/**
 	 * Return the internal LifecycleProcessor used by the context.
-	 * @return the internal LifecycleProcessor (never {@code null})
+	 * @return the internal LifecycleProcessor (never {@code null})  |refresh 中初始化
 	 * @throws IllegalStateException if the context has not been initialized yet
 	 */
 	LifecycleProcessor getLifecycleProcessor() throws IllegalStateException {
@@ -512,7 +512,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		return this.applicationListeners;
 	}
 
-	@Override
+	@Override               //核心逻辑，但是没有过多的if else代码。进行封装。
 	public void refresh() throws BeansException, IllegalStateException {
 		synchronized (this.startupShutdownMonitor) {
 			// Prepare this context for refreshing.
@@ -586,17 +586,17 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		this.closed.set(false);
 		this.active.set(true);
 
-		if (logger.isInfoEnabled()) {
+		if (logger.isInfoEnabled()) { //避免低级别日志代码运行， 比如参数中的字符串拼接
 			logger.info("Refreshing " + this);
 		}
 
 		// Initialize any placeholder property sources in the context environment
-		initPropertySources();
+		initPropertySources();//模板方法，具体在子类实现
 
 		// Validate that all properties marked as required are resolvable
-		// see ConfigurablePropertyResolver#setRequiredProperties
-		getEnvironment().validateRequiredProperties();
-
+		// see ConfigurablePropertyResolver#setRequiredProperties|只实现configurableEnvironment接口（包含相关子接口），里面的
+		getEnvironment().validateRequiredProperties();          //environment接口和ConfigurablePropertyResolver接口
+																//所有方法都可以拿到（接口级别封装）。 简化了使用类的接口调用关系
 		// Allow for the collection of early ApplicationEvents,
 		// to be published once the multicaster is available...
 		this.earlyApplicationEvents = new LinkedHashSet<>();
