@@ -34,7 +34,7 @@ import org.springframework.context.ResourceLoaderAware;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringValueResolver;
 
-/**
+/** 20180321  实现这些接口的对象想要知道具体的对应接口的实现是哪个，在这个处理器里进行关联
  * {@link org.springframework.beans.factory.config.BeanPostProcessor}
  * implementation that passes the ApplicationContext to beans that
  * implement the {@link EnvironmentAware}, {@link EmbeddedValueResolverAware},

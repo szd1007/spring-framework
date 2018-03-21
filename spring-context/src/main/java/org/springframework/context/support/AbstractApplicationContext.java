@@ -79,6 +79,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.util.StringValueResolver;
 
 /**20180308 一个类实现了多个接口，如果都在一个里面实现可能会比较复杂，可以将部分复杂的接口实现抽离，然后用代理的方式访问
  * Abstract implementation of the {@link org.springframework.context.ApplicationContext} |这样的好处是这个总接口
@@ -525,10 +526,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			prepareBeanFactory(beanFactory);
 
 			try {
-				// Allows post-processing of the bean factory in context subclasses.
+				// Allows post-processing of the bean factory in context subclasses. bean定义已加载但是还没有实例化
 				postProcessBeanFactory(beanFactory);
 
-				// Invoke factory processors registered as beans in the context.
+				// Invoke factory processors registered as beans in the context. 同上
 				invokeBeanFactoryPostProcessors(beanFactory);
 				//?	factory processors  和	bean processors  区别? 作用时间
 				// Register bean processors that intercept bean creation.
@@ -658,12 +659,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// Detect a LoadTimeWeaver and prepare for weaving, if found.
 		if (beanFactory.containsBean(LOAD_TIME_WEAVER_BEAN_NAME)) {
-			beanFactory.addBeanPostProcessor(new LoadTimeWeaverAwareProcessor(beanFactory));
-			// Set a temporary ClassLoader for type matching.
+			beanFactory.addBeanPostProcessor(new LoadTimeWeaverAwareProcessor(beanFactory)); //这些声明aware接口的，
+			// Set a temporary ClassLoader for type matching.                   //在程序初始化时就已经将相应实现注入。使用的时候就已经有了
 			beanFactory.setTempClassLoader(new ContextTypeMatchClassLoader(beanFactory.getBeanClassLoader()));
 		}
 
-		// Register default environment beans.
+		// Register default environment beans. spring用bean来管理使用到的程序组件类。好处：高度灵活，可以自己定制，只要正确实现接口
 		if (!beanFactory.containsLocalBean(ENVIRONMENT_BEAN_NAME)) {
 			beanFactory.registerSingleton(ENVIRONMENT_BEAN_NAME, getEnvironment());
 		}
@@ -688,7 +689,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Instantiate and invoke all registered BeanFactoryPostProcessor beans,
 	 * respecting explicit order if given.
-	 * <p>Must be called before singleton instantiation.
+	 * <p>Must be called before singleton instantiation. | 这个是自定义的类
 	 */
 	protected void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
 		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());
@@ -851,6 +852,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// at this point, primarily for resolution in annotation attribute values.
 		if (!beanFactory.hasEmbeddedValueResolver()) {
 			beanFactory.addEmbeddedValueResolver(strVal -> getEnvironment().resolvePlaceholders(strVal));
+//			beanFactory.addEmbeddedValueResolver(new StringValueResolver() {
+//				@Nullable //具体的接口实现，通过lambda表达式实现
+//				@Override
+//				public String resolveStringValue(String strVal) {
+//					return getEnvironment().resolvePlaceholders(strVal);
+//				}
+//			});
+
 		}
 
 		// Initialize LoadTimeWeaverAware beans early to allow for registering their transformers early.
