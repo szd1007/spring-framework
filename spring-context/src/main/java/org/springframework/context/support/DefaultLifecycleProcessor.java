@@ -141,7 +141,7 @@ public class DefaultLifecycleProcessor implements LifecycleProcessor, BeanFactor
 	private void startBeans(boolean autoStartupOnly) {
 		Map<String, Lifecycle> lifecycleBeans = getLifecycleBeans();
 		Map<Integer, LifecycleGroup> phases = new HashMap<>();
-		lifecycleBeans.forEach((beanName, bean) -> {
+		lifecycleBeans.forEach((beanName, bean) -> {  //map遍历  这种方式也不错
 			if (!autoStartupOnly || (bean instanceof SmartLifecycle && ((SmartLifecycle) bean).isAutoStartup())) {
 				int phase = getPhase(bean);
 				LifecycleGroup group = phases.get(phase);

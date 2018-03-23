@@ -188,7 +188,7 @@ class PostProcessorRegistrationDelegate {
 
 		String[] postProcessorNames = beanFactory.getBeanNamesForType(BeanPostProcessor.class, true, false);
 
-		// Register BeanPostProcessorChecker that logs an info message when
+		// Register BeanPostProcessorChecker that logs an info message when      ||这个在beanPost初始化过程中，如果有特定类初始化会打印这个log
 		// a bean is created during BeanPostProcessor instantiation, i.e. when
 		// a bean is not eligible for getting processed by all BeanPostProcessors.
 		int beanProcessorTargetCount = beanFactory.getBeanPostProcessorCount() + 1 + postProcessorNames.length;

@@ -529,10 +529,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				// Allows post-processing of the bean factory in context subclasses. bean定义已加载但是还没有实例化
 				postProcessBeanFactory(beanFactory);
 
-				// Invoke factory processors registered as beans in the context. 同上
+				// Invoke <<factory processors>> registered as beans in the context. 同上 bean定义已加载但是还没有实例化
 				invokeBeanFactoryPostProcessors(beanFactory);
 				//?	factory processors  和	bean processors  区别? 作用时间
-				// Register bean processors that intercept bean creation.
+				// Register bean processors that intercept bean creation. ||只是初始化加载，并没有发生调用
 				registerBeanPostProcessors(beanFactory);
 
 				// Initialize message source for this context.
@@ -718,8 +718,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected void initMessageSource() {
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
 		if (beanFactory.containsLocalBean(MESSAGE_SOURCE_BEAN_NAME)) {
-			this.messageSource = beanFactory.getBean(MESSAGE_SOURCE_BEAN_NAME, MessageSource.class);
-			// Make MessageSource aware of parent MessageSource.
+			this.messageSource = beanFactory.getBean(MESSAGE_SOURCE_BEAN_NAME, MessageSource.class);//如果不是singleton对象，
+			// Make MessageSource aware of parent MessageSource.                                    //这种方式会促使其实例化
 			if (this.parent != null && this.messageSource instanceof HierarchicalMessageSource) {
 				HierarchicalMessageSource hms = (HierarchicalMessageSource) this.messageSource;
 				if (hms.getParentMessageSource() == null) {
@@ -733,7 +733,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			}
 		}
 		else {
-			// Use empty MessageSource to be able to accept getMessage calls.
+			// Use empty MessageSource to be able to accept getMessage calls. |当前类不存在messageSource，使用代理类
 			DelegatingMessageSource dms = new DelegatingMessageSource();
 			dms.setParentMessageSource(getInternalParentMessageSource());
 			this.messageSource = dms;
@@ -784,7 +784,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				logger.debug("Using LifecycleProcessor [" + this.lifecycleProcessor + "]");
 			}
 		}
-		else {
+		else { //默认的lifecycleProcessor
 			DefaultLifecycleProcessor defaultProcessor = new DefaultLifecycleProcessor();
 			defaultProcessor.setBeanFactory(beanFactory);
 			this.lifecycleProcessor = defaultProcessor;
@@ -872,7 +872,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.setTempClassLoader(null);
 
 		// Allow for caching all bean definition metadata, not expecting further changes.
-		beanFactory.freezeConfiguration();
+		beanFactory.freezeConfiguration(); //到此类定义已经frozen。 不能再做额外更改
 
 		// Instantiate all remaining (non-lazy-init) singletons.
 		beanFactory.preInstantiateSingletons();
