@@ -142,7 +142,7 @@ public class ClassPathResource extends AbstractFileResolvingResource {
 		return (resolveURL() != null);
 	}
 
-	/**
+	/** 通过类加载器来解析URL
 	 * Resolves a URL for the underlying class path resource.
 	 * @return the resolved URL, or {@code null} if not resolvable
 	 */

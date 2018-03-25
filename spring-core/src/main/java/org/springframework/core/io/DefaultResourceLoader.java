@@ -151,7 +151,7 @@ public class DefaultResourceLoader implements ResourceLoader {
 			}
 		}
 
-		if (location.startsWith("/")) {
+		if (location.startsWith("/")) { //资源获取方式
 			return getResourceByPath(location);
 		}
 		else if (location.startsWith(CLASSPATH_URL_PREFIX)) {
@@ -170,7 +170,7 @@ public class DefaultResourceLoader implements ResourceLoader {
 		}
 	}
 
-	/**
+	/**   默认实现，可以由子类继承扩展
 	 * Return a Resource handle for the resource at the given path.
 	 * <p>The default implementation supports class path locations. This should
 	 * be appropriate for standalone implementations but can be overridden,
