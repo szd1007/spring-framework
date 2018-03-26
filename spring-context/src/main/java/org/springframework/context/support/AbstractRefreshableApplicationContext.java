@@ -25,7 +25,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextException;
 import org.springframework.lang.Nullable;
 
-/**
+/**20180326
  * Base class for {@link org.springframework.context.ApplicationContext}
  * implementations which are supposed to support multiple calls to {@link #refresh()},
  * creating a new internal bean factory instance every time.
@@ -68,7 +68,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	private Boolean allowBeanDefinitionOverriding;
 
 	@Nullable
-	private Boolean allowCircularReferences;
+	private Boolean allowCircularReferences; //声明成 Nullable 可以避免基本类型自动初始化值，并且可以判空。接口声明中适合使用
 
 	/** Bean factory for this context */
 	@Nullable
@@ -130,12 +130,12 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
 			beanFactory.setSerializationId(getId());
 			customizeBeanFactory(beanFactory);
-			loadBeanDefinitions(beanFactory);
+			loadBeanDefinitions(beanFactory);//加载bean定义，xml、注解、etc
 			synchronized (this.beanFactoryMonitor) {
 				this.beanFactory = beanFactory;
 			}
 		}
-		catch (IOException ex) {
+		catch (IOException ex) { //这样写也不错。代码看起来不那么乱
 			throw new ApplicationContextException("I/O error parsing bean definition source for " + getDisplayName(), ex);
 		}
 	}
