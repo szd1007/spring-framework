@@ -151,7 +151,7 @@ public class DefaultResourceLoader implements ResourceLoader {
 			}
 		}
 
-		if (location.startsWith("/")) { //资源获取方式
+		if (location.startsWith("/")) { //资源获取方式，指定绝对路径方式加载定义文件
 			return getResourceByPath(location);
 		}
 		else if (location.startsWith(CLASSPATH_URL_PREFIX)) {

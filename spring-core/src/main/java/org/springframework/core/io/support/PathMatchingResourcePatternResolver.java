@@ -53,7 +53,7 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
-/**
+/** 20180404 AbstractApplicationContext 使用。 只负责解析path，具体的resource解析依赖resourceLoader
  * A {@link ResourcePatternResolver} implementation that is able to resolve a
  * specified resource location path into one or more matching Resources.
  * The source path may be a simple path which has a one-to-one mapping to a
