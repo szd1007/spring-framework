@@ -159,7 +159,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		return delegate;
 	}
 
-	/**
+	/** 从配置文件中读取bean配置，其中包括component-scan 注解解析
 	 * Parse the elements at the root level in the document:
 	 * "import", "alias", "bean".
 	 * @param root the DOM root element of the document
