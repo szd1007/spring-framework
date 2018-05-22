@@ -439,7 +439,7 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 								candidates.add(sbd);
 							}
 							else {
-								if (debugEnabled) {
+								if (debugEnabled) {//debug级别不开的话不影响性能
 									logger.debug("Ignored because not a concrete top-level class: " + resource);
 								}
 							}

@@ -32,7 +32,7 @@ import org.springframework.lang.Nullable;
  * (i.e. per ".class" file).
  *
  * @author Juergen Hoeller
- * @author Costin Leau
+ * @author Costin Leau         为SimpleMetadataReaderFactory 增加的缓存
  * @since 2.5
  */
 public class CachingMetadataReaderFactory extends SimpleMetadataReaderFactory {
