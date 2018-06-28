@@ -46,7 +46,7 @@ import org.springframework.lang.Nullable;
  */
 public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 
-	/**
+	/**实例化之前调用可以生成目标类的代理。和普通的beanPost区别主要是声明周期不一样。那个是在初始化实例之后执行
 	 * Apply this BeanPostProcessor <i>before the target bean gets instantiated</i>.
 	 * The returned bean object may be a proxy to use instead of the target bean,
 	 * effectively suppressing default instantiation of the target bean.

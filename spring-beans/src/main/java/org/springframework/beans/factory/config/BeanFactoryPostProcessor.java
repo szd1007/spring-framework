@@ -47,8 +47,8 @@ public interface BeanFactoryPostProcessor {
 
 	/**
 	 * Modify the application context's internal bean factory after its standard
-	 * initialization. All bean definitions will have been loaded, but no beans  |执行时机： bean定义都已经加载，但是没有初始化
-	 * will have been instantiated yet. This allows for overriding or adding
+	 * initialization. All bean definitions will have been loaded, but no beans  |执行时机： bean定义都已经加载，但是没有初始化，也就是说这些只执行一次
+	 * will have been instantiated yet. This allows for overriding or adding     | 但是BeanPostProcessor 在每个类初始化的时候都会调用一次
 	 * properties even to eager-initializing beans.
 	 * @param beanFactory the bean factory used by the application context
 	 * @throws org.springframework.beans.BeansException in case of errors

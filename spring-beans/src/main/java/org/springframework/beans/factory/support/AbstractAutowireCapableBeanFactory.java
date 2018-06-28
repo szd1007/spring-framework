@@ -1698,7 +1698,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		Object wrappedBean = bean;
-		if (mbd == null || !mbd.isSynthetic()) {
+		if (mbd == null || !mbd.isSynthetic()) { //BeanPostProcessor 调用时间 bean已经创建 但是还没有调用init方法
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
 
@@ -1710,7 +1710,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					(mbd != null ? mbd.getResourceDescription() : null),
 					beanName, "Invocation of init method failed", ex);
 		}
-		if (mbd == null || !mbd.isSynthetic()) {
+		if (mbd == null || !mbd.isSynthetic()) {//BeanPostProcessor 调用时间 bean已经创建 并且已经调用了init方法
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		}
 
