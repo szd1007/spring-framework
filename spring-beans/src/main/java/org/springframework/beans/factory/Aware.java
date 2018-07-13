@@ -16,7 +16,7 @@
 
 package org.springframework.beans.factory;
 
-/**
+/** 一种类型的标志，并没有具体的实现。 但是 instanceOf会用到,I think
  * Marker superinterface indicating that a bean is eligible to be
  * notified by the Spring container of a particular framework object
  * through a callback-style method. Actual method signature is
