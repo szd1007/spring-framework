@@ -51,7 +51,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-/**
+/** 2018-7-18 19:55:35
  * {@link org.springframework.beans.factory.config.BeanPostProcessor} implementation
  * that wraps each eligible bean with an AOP proxy, delegating to specified interceptors
  * before invoking the bean itself.
@@ -252,7 +252,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 				return null;
 			}
 			if (isInfrastructureClass(beanClass) || shouldSkip(beanClass, beanName)) {
-				this.advisedBeans.put(cacheKey, Boolean.FALSE);
+				this.advisedBeans.put(cacheKey, Boolean.FALSE); //添加advise bean
 				return null;
 			}
 		}
